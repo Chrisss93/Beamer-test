@@ -1,0 +1,5 @@
+\beamer@endinputifotherversion {3.20pt}
+\beamer@sectionintoc {1}{GGPLOT2}{5}{0}{1}
+\beamer@sectionintoc {2}{Xtable and Hmisc}{17}{0}{2}
+\beamer@sectionintoc {3}{Sweave}{36}{0}{3}
+\beamer@sectionintoc {4}{Beamer}{43}{0}{4}

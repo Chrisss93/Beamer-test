@@ -1,0 +1,983 @@
+\documentclass[nogin]{beamer} %Instead of an article class, use beamer class
+\usepackage{graphicx} %Bring in outside images
+\usepackage{amssymb,amsmath} %Easy equation typsetter
+\usepackage{listings}
+\usepackage{colortbl} %More colours
+\usetheme{mcgill} % Creates the McGill insignia behind the title page
+\usecolortheme[RGB={238,44,44}]{structure}
+\usetheme{PaloAlto}
+\title{R, Sweave and Beamer}
+\author{Christopher Lee}
+\setbeamertemplate{itemize items}[ball]
+\setbeamertemplate{enumerate items}[circle]
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Downloading packages}
+\footnotesize
+\begin{itemize}
+\item R is found here:\\
+\begin{sloppypar}
+\url{http://cran.parentingamerica.com}
+\end{sloppypar}
+\item For Windows, find either TeX Live or MiKTeX here:
+\begin{sloppypar}
+\url{http://www.tug.org/texlive/acquire-netinstall.html}
+\url{http://miktex.org/download}
+\end{sloppypar}
+\item For Mac OSX, find  MacTex here:
+\begin{sloppypar}
+\url{http://tug.org/mactex/}
+\end{sloppypar}
+\item Beamer should already be preloaded. If not it may be found here:
+\begin{sloppypar}
+\url{https://bitbucket.org/rivanvx/beamer/wiki/Home}
+\end{sloppypar}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Online Tutorials}
+See the following resources for introductory tutorials and examples for Beamer:
+\begin{itemize}
+\begin{sloppypar}
+\item \url{http://www.math.umbc.edu/~rouben/beamer/}
+\item \url{http://www.informatik.uni-freiburg.de/~frank/ENG/latex-course/latex-course-3/latex-course-3_en.html}
+\item \url{http://users.stat.umn.edu/~sandy/courses/8801/handouts/03.Beamer/beamer.pdf}
+\item \url{http://www.wekaleamstudios.co.uk/supplementary-material/}
+\end{sloppypar}
+\end{itemize}
+\end{frame}
+
+\section{GGPLOT2}
+\begin{frame}
+\frametitle{Section 1}
+\begin{center}
+\Large
+The Ggplot2 package
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Ggplot2}
+\begin{block}{Data}
+I am using CANSIM 202-0802 data to produce these graphs in R version 3.0.1
+\end{block}
+Find the data here:\\
+\url{http://www.statcan.gc.ca/tables-tableaux/sum-som/l01/cst01/famil41a-eng.htm}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Example 1, Line graph}
+<<echo=FALSE,warning=FALSE,message=FALSE,fig.height=5,fig.width=8>>=
+setwd("~/Beamer-test")
+library(xtable) #Supress messages is to avoid the ugly box detailing the package conflicts
+library(ggplot2) #This code is not entirely necessary but makes the final product cleaner
+library(reshape)
+library(stringr)
+library(scales)
+library(Hmisc)
+data2<-read.csv("cansim2123306067462968615.csv") #Load data from CANSIM 202-0802 Option 2
+colnames(data2)<-c("Year","Geography","Line","Statistic","Population","Value")
+#Small data cleaning...reordering and renaming certain factor levels
+data2$Value<-as.numeric(as.character(data2$Value)) #Change value from factor to numeric
+#Below I am reordering the factor levels of Geography and Population since I can't do it within Hmisc functions
+data2$Geography<-ordered(data2$Geography,levels=c("Atlantic provinces","Newfoundland and Labrador",
+                                                  "New Brunswick","Nova Scotia","Prince Edward Island",
+                                                  "Prairie provinces","Alberta","Manitoba","Saskatchewan",
+                                                  "British Columbia","Ontario","Quebec","Canada"))
+data2$Population<-ordered(data2$Population,levels=c("Females","Males","Persons under 18 years",
+                                                    "Persons 18 to 64 years","Persons 65 years and over",
+                                                    "Persons in economic families","Persons under 18 years in female lone-parent families","Persons under 18 years in two-parent families","Unattached individuals","All persons"))
+data2$Population<-revalue(data2$Population,c("Persons under 18 years in female lone-parent families"="Child in single mother families","Persons under 18 years in two-parent families"="Child in two-parent families"))
+#End of data cleaning
+data2<-subset(data2,!data2$Line=="Low income cut-offs before tax, 1992 base")
+
+ggplot(data=subset(data2,data2$Geography=="Canada"&data2$Statistic=="Percentage of persons in low income"&
+                     data2$Population=="All persons"),
+       aes(x=Year,y=Value/100,colour=Line,group=Line))+ #Year on x-axis, pov rate/100 on y-axis and each line gets a different colour
+  ylab("Poverty Rate")+ggtitle("Canadian Poverty Measures")+
+  geom_line()+ #All elements of geom_line taken from ggplot aesthetics arguments
+  geom_point()+ #All elements of geom_point taken from ggplot aesthetics arguemnts
+  scale_y_continuous(breaks=seq(0,max(data2$Value,na.rm=TRUE),.01),labels=percent)+
+  #Give a tick to every 1% pov rate on the y axis and convert pov rates (0<x<1) into percentages
+  theme(legend.direction="horizontal",legend.position="top",axis.text.x=element_text(angle=45))+
+  #Legend reads left to right on top of graph and angle x-axis ticks to 45 degrees
+  scale_x_continuous(breaks=seq(min(data2$Year,na.rm=TRUE),max(data2$Year,na.rm=TRUE),2))
+#Give a tick to every 2 years on the x-axis, starting from the minimum Year to the maximum Year
+@
+\end{frame}
+
+\begin{frame}[fragile]{Outline}
+\frametitle{Example 2, Boxplots}
+<<echo=FALSE,fig.height=5.75,fig.width=8>>=
+  ggplot(data=subset(data2,!data2$Line=="Market basket measure, 2011 base"&data2$Population=="All persons"&
+                       (data2$Geography=="Canada"|data2$Geography=="Atlantic provinces"|
+                          data2$Geography=="Prairie provinces"|data2$Geography=="Ontario"|
+                          data2$Geography=="British Columbia"|data2$Geography=="Quebec")&
+                       data2$Statistic=="Percentage of persons in low income"),
+         aes(x=Geography,y=Value/100,fill=Geography))+geom_boxplot()+facet_grid(.~Line)+
+  ggtitle("Poverty variance across broader geography")+ylab("Poverty Rate")+
+  scale_y_continuous(breaks=seq(0,max(data2$Value,na.rm=TRUE),0.05),labels=percent)+
+  theme(legend.direction="horizontal",legend.position="top",axis.text.x=element_text(angle=45))
+
+@
+\end{frame}
+
+\begin{frame}[fragile]{Outline}
+\frametitle{Example 3 Pie Charts}
+<<echo=FALSE,fig.height=6>>=
+  ggplot(data=subset(data2,(Geography=="Atlantic provinces"|Geography=="Prairie provinces"|Geography=="British Columbia"|Geography=="Ontario"|Geography=="Quebec")&Statistic=="Number of persons in low income (x 1,000)"&Line=="Low income measure after tax"&Population=="All persons"&(Year=="1976"|Year=="1980"|Year=="1985"|Year=="1990"|Year=="1995"|Year=="2000"|Year=="2005"|Year==max(Year))),
+         aes(x=factor(1),y=Value,fill=Geography))+
+  geom_bar(stat="identity",width=1,position="fill")+
+  coord_polar(theta="y")+facet_wrap(~Year,ncol=4)+
+  ylab("")+xlab("")+ggtitle("Composition of the Poor across Geography")+
+theme(axis.ticks = element_blank(), 
+      axis.text.y = element_blank(),
+      axis.text.x = element_blank())
+@
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{GGplot code}
+\begin{block}{All these plots start with the same code}
+\begin{verbatim}
+ggplot(data=DATA,aes(x=X,y=Y,fill=FILL,
+                              colour=COLOUR)
+\end{verbatim}
+\end{block}
+\footnotesize
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\begin{itemize}
+\item DATA = self explanatory, our dataframe
+\item X = What we want to plot on the x-axis
+\item Y = What we want to plot on the y-axis
+\item FILL = For our 3rd variable to create sections/bins ontop of the x and y axes.
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{itemize}
+\item COLOUR = Similar to FILL, it is created to map a third variable onto the plot.
+\item Notice, this alone is not sufficient to create a plot. We have specified the parameters, but now must specify what type of plot we want
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Geom code}
+\begin{block}{Geom line, Geom boxplot, Geom point, Geom bar}
+Here we pick which plots we want to use. Many arguments within the geom functions are very similar to the ones in the ggplot argument. Notice, if you have correctly specified your  x, y and the third variable, you can leave \verb|geom_()| blank
+\end{block}
+\begin{itemize}
+\item 
+\begin{verbatim}geom_line() :             Line graph
+\end{verbatim}
+\item
+\begin{verbatim}geom_boxplot() :          Side-by-side \end{verbatim}
+\begin{verbatim}                          boxplots
+\end{verbatim}
+\item
+\begin{verbatim}geom_bar(stat='identity) : Bar charts/\end{verbatim}
+\begin{verbatim}                          histogram
+\end{verbatim}
+\item
+\begin{verbatim}geom_area() :             Area plot
+\end{verbatim}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Miscallaneous code}
+Now with our plots we can tidy up the labels, axes, scales and legends
+\scriptsize
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\begin{block}{Imputs}
+\begin{itemize}
+\item \begin{verbatim} ylab \end{verbatim}
+\item \begin{verbatim} xlab \end{verbatim}
+\item \begin{verbatim} ggtitle \end{verbatim}
+\item \begin{verbatim} guides \end{verbatim}
+\item \begin{verbatim} theme \end{verbatim}
+\item \begin{verbatim} scale_y_continuous \end{verbatim}
+\item \begin{verbatim} scale_x_discrete \end{verbatim}
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{block}{Explanation}
+\begin{itemize}
+\item Title for y-axis
+\item Title for x-axis
+\item Main Title
+\item Controls legend
+\item Remove or angle ticks
+\item Control y-axis breaks and ticks
+\item Contrl x-axis breaks and ticks
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Example output}
+<<echo=FALSE,fig.height=4>>=
+ggplot(subset(data2,(Geography=="Ontario"|Geography=="Quebec")&
+         Line=="Low income measure after tax"&
+         Statistic=="Percentage of persons in low income"&
+         (Population=="Males"|Population=="Females")),
+       aes(x=Year,y=Value,colour=Population))+
+  geom_line()+ggtitle("This is my plot")+
+  ylab("Y")+xlab("X")+guides(fill=FALSE)+
+  scale_y_continuous(breaks=c(10,12,14))+
+  theme(legend.position="none",axis.text.x=element_text(angle=45))+
+  facet_grid(.~Geography)
+@
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Example code explanation}
+\scriptsize
+From our dataset DATA, we graph the variable \emph{Year} on the x-axis and the variable \emph{Value} on the y-axis. We assign a seperate color for every  factor level of the variable \emph{Population}.
+\begin{verbatim}ggplot(data=DATA,aes(x=Year,y=Value,colour=Population))+\end{verbatim}
+We specify that we want a line graph, and title the plot.
+\begin{verbatim}geom_line()+gggtitle("This is my plot")\end{verbatim}
+We title the y-axis \emph{Y} and the x-axis {X}. We also suppress the legend.
+\begin{verbatim}ylab("Pov. rates")+xlab("Time")+guides(fill=FALSE)+\end{verbatim}
+We control the y-axis and create ticks on the numbers 10, 12 and 14 of the variable \emph{Value}.
+\begin{verbatim}scale_y_continuous(breaks=c(10,12,14))+ \end{verbatim}
+We control the tick labels on the x-axis. We angle the tick labels 45 degrees
+\begin{verbatim}theme(axis.text.x=element_text(angle=45))+
+\end{verbatim}
+We create several of these plots, each using a different factor level from the variable \emph{Geography}. Essentially, each plot is using different data according to a unique value of \emph{Geography}
+\begin{verbatim}facet_grid(.~Geography)\end{verbatim}
+\end{frame}
+
+\begin{frame}
+\frametitle{Result}
+The graphic is now ready to be placed into a LaTeX environment. No additional wrapper is necessary to bring this graphic from R into LaTeX and eventually to exportable .pdf. We will reuse this code later.
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Other resources}
+For more information see the following links
+\begin{itemize}
+\item \url{http://www.cookbook-r.com/Graphs/}
+\item \url{http://sharpstatistics.co.uk/r/ggplot2-guide/}
+\item \url{http://www.ceb-institute.org/bbs/wp-content/uploads/2011/09/handout_ggplot2.pdf}
+\end{itemize}
+\end{frame}
+
+\section{Xtable and Hmisc}
+\begin{frame}
+\frametitle{Section 2}
+\begin{center}
+\Large
+Exporting Tables to LaTeX environments
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Xtable and Hmisc}
+\begin{block}{Now what about tables?}
+We've seen how to create graphics and plots using ggplot within R. Now lets see how to create tables ready to be exported into LaTeX. There are two packages in R designed for this. To use either, imput the following two lines of code
+\begin{enumerate}
+\item Xtable
+\begin{verbatim}install.packages("xtable")
+library(xtable)\end{verbatim}
+\item Hmisc
+\begin{verbatim}install.packages("Hmisc")
+library(Hmisc)\end{verbatim}
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Exporting R tables as LaTeX tables }
+\begin{itemize}
+\item Tables are only slightly more tricky than plots, in that there are several base R functions to summarize data and create tables in the console. But that output is not immediately exportable to LaTeX
+\item We look to Xtable and Hmisc, which allows us to wrap R tables within a function that translates it into LaTeX code.
+\item Exportable objects can range from contingency tables to matrices, regression summaries, ANOVA tables and even raw data
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Xtable}
+\begin{block}{Exporting using Xtable}
+I generally prefer Xtable to Hmisc because
+\begin{enumerate}
+\item xtable can wrap tables from almost all objects and classes
+\item You can modify the LaTeX output a great deal in xtable
+\item Most importantly, xtable can export tables without a float
+\end{enumerate}
+More on the float environment later.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{List of base tables}
+\begin{columns}[T]
+\begin{column}{.5\textwidth}
+\begin{block}{R function}
+\begin{itemize}
+\item \begin{verbatim}table()\end{verbatim}
+\item \begin{verbatim}xtabs()\end{verbatim}
+\item \begin{verbatim}prop.table()\end{verbatim}
+\item \begin{verbatim}aggregate()\end{verbatim}
+\item \begin{verbatim}anova()\end{verbatim}
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{.5\textwidth}
+\begin{block}{Description}
+\begin{itemize}
+\footnotesize
+\item 2-way contingency table
+\item 3-way contingency table
+\item 2-way frequency table
+\item Custom aggregate data
+\item Analysis of variance wrapper around a regression object
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile,shrink]
+\frametitle{Xtable imput}
+\begin{block}{}
+Take nearly any R object of class dataframe, matrix, array, aov, lm...\\
+and then enter \verb|xtable(x)| to provide LaTeX output. You are given a series of options for the output.
+\end{block}
+\begin{columns}[T]
+\begin{column}{.5\textwidth}
+\begin{itemize}
+\item Digits
+\item Line divisions
+\item Floating environment
+\end{itemize}
+\end{column}
+\begin{column}{.5\textwidth}
+\begin{itemize}
+\item Captions
+\item Alignment of columns
+\item and more
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile,shrink]
+\frametitle{Wrapping xtable in print}
+\small
+Wrapping xtable in the print function is essential because it allows us to specify the LaTeX object to not float the table. A floated table is within a table environment and is sandwiched between \verb|\begin{table}| and \verb|\end{table}|\\[\baselineskip]
+Once a table is floated there is very little we can do with it. The biggest problem is always \textbf{Overfull Hbox}. Tables are often too long to fit to the page width. Since Beamer is in a presentation format, its a bad idea to play around too much with the page size.\\[\baselineskip]
+
+Sometimes we have Overfull Vbox where the table is too long, but this is easily corrected by specifying xtable to deliver output in "longtable" format and splitting the table across multiple frames. This cannot be done with wide tables. 
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Wrapping xtable in print Cont...}
+We can shrink this "un-floated" table by first loading the \textbf{graphicx} package into LaTeX and then use the \textbf{resize} argument. It should look something like this.
+\begin{verbatim}
+\documentclass{beamer}
+\usepackage{graphicx}
+\begin{document}
+\resizebox{\linewidth}{!}{%
+<<echo=FALSE,warning=FALSE>> =
+print(xtable(x),floating=FALSE)
+@
+}
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,shrink]
+\frametitle{Xtable example part 1}
+First lets create the table in R. It doesn't look too nice.
+\begin{verbatim}table<-with(subset(data2,data2$Year>=2000&data2$Geography=="Canada"&
+data2$Statistic=="Percentage of persons in low income"&
+as.character(data2$Line)=="Low income cut-offs after tax, 1992 base"),
+xtabs(Value~Population+Year))
+\end{verbatim}
+<<echo=FALSE,warning=FALSE>>=
+table<-with(subset(data2,data2$Year>=2000&data2$Geography=="Canada"&data2$Statistic=="Percentage of persons in low income"&
+                as.character(data2$Line)=="Low income cut-offs after tax, 1992 base"),xtabs(Value~Population+Year))
+table
+@
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Xtable example part 2}
+Now lets wrap our xtab() table within xtable.
+\begin{verbatim}
+table2<-
+xtable(table,digits=1,align="l|rrrrrrrrrrrr")
+\end{verbatim}
+<<echo=FALSE,warning=FALSE>>=
+table2<-xtable(table,digits=1,align="l|rrrrrrrrrrrr")
+table2
+@
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Example part 3}
+We have to modify our R chunk code for LaTeX to properly read xtable
+\begin{verbatim}
+<<echo=FALSE,warning=FALSE, results='asis'>> =
+table2<-
+xtable(table,digits=1,align="l|rrrrrrrrrrrr")
+@
+\end{verbatim}
+<<echo=FALSE,warning=FALSE,results='asis'>>=
+table2
+@
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Example part 4}
+Now you see our Overfull Hbox problem. First we wrap the xtable within print, specify floating=FALSE and resize the table
+\begin{verbatim}
+\resizebox{\linewidth}{!}{%
+<<echo=FALSE,warning=FALSE,results='asis'>> =
+print(table2,floating=FALSE)
+@
+}
+\end{verbatim}
+\resizebox{\linewidth}{!}{%
+<<echo=FALSE,warnings=FALSE,results='asis'>>=
+print(table2,floating=FALSE)
+@
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{Floating}
+Remember, the \textbf{resize} command will only work on a "non-floating" object. Therefore if you have an Overfull hbox, you must first wrap your table in print() and specify floating=FALSE.\\[\baselineskip]
+I'll go over the R chunk code and Sweave code in the next section.
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{A simpler solution: Xtable font size}
+Sometimes the resize command is unecessary and a simpler solution is available. Xtable allows for us to change the font size from normal size to {\tiny very small} to {\Large very large}
+\begin{block}{xtable(...,size="  ")}
+By changing the font size of the table, we can easily remedy minor Overfull Hbox and Vbox. There are 10 sizes.
+\begin{columns}[T]
+\begin{column}{.25\linewidth}
+\begin{itemize}
+\item {\tiny tiny}
+\item {\scriptsize scriptsize}
+\item {\footnotesize footnotesize}
+\item {\small small}
+\end{itemize}
+\end{column}
+\begin{column}{.25\linewidth}
+\begin{itemize}
+\item {\normalsize normal}
+\item {\large large}
+\item {\Large Large}
+\end{itemize}
+\end{column}
+\begin{column}{.5\linewidth}
+\begin{itemize}
+\item {\LARGE LARGE}
+\item {\huge huge}
+\item {\Huge Huge}
+\end{itemize}
+\end{column}
+\end{columns}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\small
+\frametitle{Dressing up a table}
+Lets say we have a properly sized vanilla table
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+<<echo=FALSE,warnings=FALSE,results='asis'>>=
+tab1<-subset(data2,data2$Geography=="Canada"&data2$Statistic=="Percentage of persons in low income"&
+                     data2$Population=="All persons"&data2$Year>=1995&(data2$Year<=2005|data2$Year==2011))
+tab1<-tab1[,c(1,3,6)] #Select variables of interest
+tab1$Line<-factor(tab1$Line) #Refactorize column to remove empty factor level
+tab2<-xtabs(Value~Year+Line,data=tab1) #Creating 3-way table
+tab2[tab2==0]<-NA #For purposes of exercise, turn all 0s into NA
+colnames(tab2)<-c("LICO","LIM","MBM")
+xtable(tab2,size="small")
+@
+\end{column}
+\begin{column}{0.45\textwidth}
+We will try to add a few features to the table:
+\begin{itemize}
+\item Percentage signs
+\item Captions
+\item Line divisions
+\item A little colour
+\end{itemize}
+To use the following code add \verb|\usepackage{colortbl}| to the preamble and \verb|library(stringr)| to the chunk code
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Dressing up a table: Result}
+\begin{columns}[T]
+\begin{column}{.5\textwidth}
+<<echo=FALSE,warnings=FALSE,results='asis'>>=
+tab3<-apply(tab2, 2, function(u) ifelse(!is.na(u),sprintf( "%.1f%%", u),u))
+pos<-as.list(seq(1,nrow(tab3),by=2))
+com<-rep("\\rowcolor[gray]{.9}",length(pos))
+print(xtable(tab3,caption="Poverty Lines",align="l||c|c|c"),hline.after=c(-1,0,11,nrow(tab2)),size="small",
+      add.to.row=list(pos=c(list(-1,8),pos),
+      command=c("\\rowcolor[rgb]{1,.8,.8}","\\rowcolor[rgb]{.8,1,0}",com)))
+@
+\end{column}
+\begin{column}{.45\textwidth}
+\scriptsize
+\begin{lstlisting}
+tab3<-apply(tab2, 2, func)
+func<-function(u){
+  ifelse(!is.na(u),
+  sprintf("%.1f%%",u),u)}
+pos<-as.list(seq(1,
+ nrow(tab3),by=2))
+com<-rep(
+  "\\rowcolor[gray]{.9}",
+ length(pos))
+print(xtable(tab3,
+   caption="Poverty Lines",
+   align="l||c|c|c",
+   size="small"),
+  hline.after=
+   c(-1,0,11,nrow(tab2)),
+  add.to.row=list(
+   pos=c(list(-1,8),pos),
+   command=c(
+    "\\rowcolor[rgb]{1,.8,.8}",
+    "\\rowcolor[rgb]{.8,1,0}",
+    com)))
+\end{lstlisting}
+\end{column}
+\end{columns}
+\end{frame}
+\begin{frame}[fragile]
+\frametitle{Dressing up a table: Explanation}
+\footnotesize
+First we define a function that will paste a \% on every non-NA element
+\begin{verbatim}
+  tab3<-apply(tab2, 2, function(u) 
+    ifelse(!is.na(u),sprintf( "%.1f%%", u),u))
+\end{verbatim}
+Then we need to specify the rows in the table which are alternating
+\begin{verbatim}
+  pos<-as.list(seq(1,nrow(tab3),by=2))
+\end{verbatim}
+Then we pick the color for the alternating rows defined by \verb|pos|
+\begin{verbatim}
+  com<-rep("\\rowcolor[gray]{.9}",length(pos))
+\end{verbatim}
+Now call xtable and use the caption option to define your caption
+\begin{verbatim}
+  print(xtable(tab3,caption="Poverty Lines",
+\end{verbatim}
+Create vertical lines between certain columns
+\begin{verbatim}
+  align="l||c|c|c",
+\end{verbatim}
+Also specify a different font size for the table and close xtable options
+\begin{verbatim}
+  size="small"),
+\end{verbatim}
+\end{frame}
+\begin{frame}[fragile]
+\frametitle{Dressing up a table: Explanation cont.}
+\footnotesize
+Now in the print options, create horizontal lines to divide key rows
+\begin{verbatim}
+  hline.after=c(-1,0,11,nrow(tab2)),
+\end{verbatim}
+Select the header, another row and our alternating rows
+\begin{verbatim}
+  add.to.row=list(pos=c(list(-1,8),pos),
+\end{verbatim}
+Now lets select colors for these select rows
+\begin{verbatim}
+  command=c("\\rowcolor[rgb]{1,.8,.8}",
+    "\\rowcolor[rgb]{.8,1,0}",
+    com)))
+\end{verbatim}
+Now we are finished.
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{A few things on Hmisc}
+The Hmisc equivalent of the \verb|xtable()| wrapper  is the \verb|latex()| function. To my knowledge, \verb|latex()| will always float the output. So in cases of Overfull Hbox, the table cannot be resized to fit the page.\\[\baselineskip]
+If you do not run into a Overfull Hbox, there are cool features in Hmisc not available in xtable, mainly its summarize.formula functions which will only work with Hmisc's latex wrapper
+\end{frame}
+
+\section{Sweave}
+\begin{frame}
+\frametitle{Section 3}
+\begin{center}
+\Large
+Using Sweave and Knitr
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Sweave and Knitr}
+Now knowing how to create plots and tables in a LaTeX format, how exacty do we get our R code into LaTeX in the first place? The generic R script file will not work. To get started
+\begin{itemize}
+\item Open R
+\item Instead of a script file, open up an R Sweave file with extension .Rnw
+\item Go to Tools $\Rightarrow$ Options $\Rightarrow$ Sweave
+\item Select  "Weave Rnw files using" $\Rightarrow$ knitr
+\end{itemize}
+You must have LaTeX in order to run this type of file. We will use \textbf{knitr} to move R code into LaTeX code, rather than the default \textbf{Sweave} which has a few annoying problems
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Sweave layout}
+\begin{block}{}
+In a .Rnw file, you must use LaTeX code. To use R code instead, you must create a "Chunk".
+\end{block}
+\begin{columns}[T]
+\begin{column}{.5\textwidth}
+\begin{itemize}
+\item To begin the chunk, type:
+\begin{verbatim}<<>>=\end{verbatim}
+\item To end the chunk, type:
+\begin{verbatim}@\end{verbatim}
+\end{itemize}
+\end{column}
+\begin{column}{.5\textwidth}
+On your screen it should look like this:
+\includegraphics[width=\textwidth]{GuidePic1.pdf}
+\end{column}\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{R to Sweave}
+\begin{itemize}
+\item Within the chunk, the R code is exactly the same as if you were writing R code in a script file.
+\item It is better to create a chunk for every table or plot, rather than putting all your R code and figures/tables in the same chunk.
+\item Plots are almost never sized correctly to the page. You will have to tweak with the chunk code in order to display plots with your desired dimensions.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Chunk Code}
+\scriptsize
+You can control the output of the R code within your chunk.
+\begin{verbatim} << options go here >>= \end{verbatim}
+A couple options:
+\begin{columns}[T]
+\begin{column}{.3\textwidth}
+\begin{itemize}
+\item echo
+\item warnings
+\item results
+\item include
+\item size
+\item message
+\item fig.height
+\item fig.width
+\end{itemize}
+\end{column}
+\begin{column}{.7\textwidth}
+\begin{itemize}
+\item Prints the R code in the output
+\item Prints the warnings in the output
+\item Whether to display the chunk output
+\item How to display the chunk output
+\item Font size of chunk output
+\item Prints messages in the output
+\item Change height of figure
+\item Change width of figure
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Chunk code example}
+\begin{verbatim}<<echo=FALSE,warning=FALSE,message=FALSE,
+                  fig.height=4,size='tiny'>>=\end{verbatim}
+\begin{itemize}
+\item The actual R chunk code is not displayed
+\item Warnings from the R chunk code are not displayed
+\item Messages from the R chunk code are not displayed
+\item The figure in the chunk has a height of 4 inches
+\item The font size for the chunk output is {\tiny tiny}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Finally, compiling the .pdf}
+\begin{itemize}
+\item After you have set up your R chunk with LaTeX friendly plots and tables, the very last step is to click \textbf{Compile PDF}
+\item This will create several files, a .log file, a .tex file, several auxilary files and the .pdf file.
+\item Any plot output from your R chunks will also be saved in a folder (if unspecified) called \textbf{figure} in whichever directory you are working from.
+\end{itemize}
+\end{frame}
+
+\section{Beamer}
+\begin{frame}
+\frametitle{Section 3}
+\begin{center}
+\Large
+Beamer and LaTeX
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{LaTeX Preamble}
+Here's a very basic intro to LaTeX for the purposes of Beamer.
+\begin{enumerate}
+\item Define a document class. We want beamer
+\item Run any packages you require for LaTeX
+\item Choose your desired beamer color and theme
+\item Create a title
+\item Create an author
+\item Run any other beamer options
+\end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{LaTeX Preamble example}
+\begin{enumerate}
+\item \verb|\documentclass{beamer}|
+\item \verb|\usepackage{graphicx}|
+\item \verb|\usetheme{PaloAlto}|
+\item \verb|\title{This is my title}|
+\item \verb|\author{This is my name}|
+\item \verb|\setbeamertemplate{itemize items}[ball]|
+\end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Title and ToC}
+Now that the preamble is finished, lets get onto the code:
+\begin{enumerate}
+\item \verb|\begin{document}|
+\item \verb|\frame{\titlepage}|
+\item \verb|\tableofcontents|
+\end{enumerate}
+\begin{itemize}
+\item No. 2 provides us a title page which displays some of the things in our preamble
+\item No. 3 provides us a table of contents which will list the sections and subsections of the document.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The frame}
+\footnotesize
+In beamer, you will create your presentation frame by frame.
+\begin{enumerate}
+\item Start a frame environment with \verb|\begin{frame}|
+\item Create a frame title with \verb|\frametitle{My frame title}|
+\item Now you are within the frame. You can then write anything and it will display within the frame.
+\item Finally, close the frame environment with \verb|\end{frame}|
+\end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The frame Cont...}
+\footnotesize
+We can dress up our frame a bit.
+\begin{enumerate}
+\item Start a block with \verb|begin{block}{My block title}|
+\item Write anything in the block.
+\item Maybe you want bulletpoints with \verb|\begin{itemize}|
+\item Now within the itemize environment, write items\\
+\verb|\item This is my 1st bulletpoint|\\
+\verb|\item This is my 2nd bulletpoint|\\
+\item Now close the itemize environment with \verb|\end{itemize}|
+\item Now close the block environment with \verb|\end{block}|
+\end{enumerate}
+The following frame is our end result
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{My frame title}
+Now you are within the frame. You can then write anything and it will display within the frame.
+\begin{block}{My block title}
+Write anything in the block.
+\begin{itemize}
+\item This is my 1st bulletpoint
+\item This is my 2nd bulletpoint
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{More frames}
+\footnotesize
+What if we want to section off the frame into several parts?
+\scriptsize
+\begin{enumerate}
+\item First type \verb|\begin{columns}[T]| to vertically align the sections
+\item Now specify the first section dimensions  with \verb|\begin{column}{width}| ie. \verb|\begin{columns}{.5\textwidth}|
+\item With this section, you can write, itemize, do anything
+\item Now close this section with \verb|\end{column}|
+\item Now specify the second section with \verb|\begin{column}{width}|. ie. \verb|\begin{columns}{.5\textwidth}|
+\item Try writing here as well
+\item Now close this section with \verb|\end{column}|
+\item Then close the environment with \verb|\end{columns}|
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{More frames example}
+\begin{columns}[T]
+\begin{column}{.5\textwidth}
+With this section, you can write, itemize, do anything
+\end{column}
+\begin{column}{.5\textwidth}
+Try writing here as well
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Pausing in Frames}
+You can use \verb|\pause| in order to show the contents of your whole frame in several seperate frames.
+\begin{enumerate}
+\item Write something
+\item Now write \verb|\pause|
+\item Now write something else
+\item Now write \verb|\pause| again
+\item Write something here too
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle<1>{Pausing example part 1}
+\frametitle<2>{Pausing example part 2}
+\frametitle<3>{Pausing example part 3}
+\begin{itemize}
+\item Write something
+\pause
+\item Now write something else
+\pause
+\item Now write something here too
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Displaying R output in frame}
+Within the frame environment, lets put in a plot that we previously made.\\
+\verb|\begin{frame}|\\
+\verb|\frametitle{R plot example}|\\
+\verb|<<echo=FALSE,warning=FALSE>>|\\
+\verb|INSERT GGPLOT CODE|\\
+\verb|@|\\
+\verb|\end{frame}|
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{R plot example}
+<<echo=TRUE,warning=FALSE>>=
+ggplot(subset(data2,(Geography=="Ontario"|Geography=="Quebec")&
+         Line=="Low income measure after tax"&
+         Statistic=="Percentage of persons in low income"&
+         (Population=="Males"|Population=="Females")),
+       aes(x=Year,y=Value,colour=Population))+
+  geom_line()+ggtitle("This is my plot")+
+  ylab("Y")+xlab("X")+guides(fill=FALSE)+
+  scale_y_continuous(breaks=c(10,12,14))+
+  theme(legend.position="none",axis.text.x=element_text(angle=45))+
+  facet_grid(.~Geography)
+@
+\end{frame}
+
+\begin{frame}
+\frametitle{R plot example Cont...}
+The last plot is not sized correctly. Playing with the fig.width and fig.height in the chunk options, we can get...
+<<echo=FALSE,fig.height=3>>=
+ggplot(subset(data2,(Geography=="Ontario"|Geography=="Quebec")&
+         Line=="Low income measure after tax"&
+         Statistic=="Percentage of persons in low income"&
+         (Population=="Males"|Population=="Females")),
+       aes(x=Year,y=Value,colour=Population))+
+  geom_line()+ggtitle("This is my plot")+
+  ylab("Y")+xlab("X")+guides(fill=FALSE)+
+  scale_y_continuous(breaks=c(10,12,14))+
+  theme(legend.position="none",axis.text.x=element_text(angle=45))+
+  facet_grid(.~Geography)
+@
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Inserting images}
+\scriptsize
+\begin{itemize}
+\item It is very easy to insert images into your frames. To do this, you must load the \textbf{graphicx} package in the preamble.
+\item Within a frame environment, use \verb|\includegraphics[options here]{file here}|
+\item Ie. \verb|\includegraphics[width=4in]{Picture.pdf}|\\
+This gives us the file "Picture.pdf" with a width of 4 inches
+\item Alternatively you can use \textbf{scalebox} to shrink a picture to fit the page with \verb|\scalebox{x}{\includegraphics{Picture.pdf}}|
+\item Ie. \verb|\scalebox{.5}{\includegraphics{Picture.pdf}}|\\
+This gives us the file "Picture.pdf" but shrunk by half
+\item The graphic can be in many formats but it is recommended to use .png, .pdf, .eps or .jpg files
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Small tips: Font size and verbatim}
+\small
+\begin{verbatim}
+\tiny, \scriptsize, \footnotesize, \small,
+\normalsize, \large, \Large, \LARGE,
+\huge & \Huge
+\end{verbatim}
+These are used to control the font size of the frame. Alternatively you can wrap these commands in \verb|{ }| if you only want to resize a specific line.
+Ie. \verb|{\small this is small text}|\vspace{\baselineskip}
+\newline Sometimes you want to make sure your text isn't misinterpreted as runnable code. To do this, use the verbatim environment \verb|\begin{verbatim}| and \verb|\end{verbatim}|. \textbf{However}, when using verbatim, you must specify the frame as \emph{fragile}:
+\begin{verbatim}
+\begin{frame}[fragile]
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Small tips: supressed captions}
+This pertains specifically for article class and not beamer class...Your table captions will be preceded by \textbf{Table 1:} or  \textbf{Table 2:} or whichever table number you are on. You can suppress this by manually writing your caption in latex.\vspace{\baselineskip}
+Following a non-floated table (make sure you don't see a \verb|\begin{table}| or \verb|\end{table}| anywhere!), add \verb|\caption{My caption title}| after the \verb|\end{tabular}| commmand. To suppress the numbering, write \verb|\usepackage{caption}| in the preamble and instead of \verb|\caption{My caption title}|, write \verb|\caption*{My caption title}|
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Why are things going wrong?}
+\footnotesize
+\begin{itemize}
+\item Sometimes your .Rnw will fail to compile. The Log is sometimes not very helpful or specific. So we should go over a few mistakes
+\item Sometimes you forget to close an environment. Every line of code: \verb|\begin{}| \textbf{must} be closed by \verb|\end{}| and in correct order.
+\item If you have \verb|\begin{document}|, \verb|\begin{frame}|, \verb|\begin{block}|, \verb|\begin{itemize}|, the code must end in the corresponding order" \verb|\end{itemize}|, \verb|\end{block}|, \verb|\end{frame}|, \verb|\end{document}|
+\item I recommend testing each frame after completion
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Anything Else?}
+I am not an expert in either LaTeX or Beamer. There are many more features to Ggplot, Sweave and Beamer. Bibtex? Framezoom? Animated graphics? More detail into Hmisc?
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Additional resources}
+\begin{itemize}
+\item \url{http://en.wikibooks.org/wiki/LaTeX/Presentations#Columns}
+\item \url{http://www.nyu.edu/projects/politicsdatalab/latex/beamer_nyu.pdf}
+\end{itemize}
+\end{frame}
+
+
+\end{document}
