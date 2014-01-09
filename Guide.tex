@@ -256,8 +256,8 @@ From our dataset DATA, we graph the variable \emph{Year} on the x-axis and the v
 \begin{verbatim}ggplot(data=DATA,aes(x=Year,y=Value,colour=Population))+\end{verbatim}
 We specify that we want a line graph, and title the plot.
 \begin{verbatim}geom_line()+gggtitle("This is my plot")\end{verbatim}
-We title the y-axis \emph{Y} and the x-axis {X}. We also suppress the legend.
-\begin{verbatim}ylab("Pov. rates")+xlab("Time")+guides(fill=FALSE)+\end{verbatim}
+We title the y-axis \textbf{Y} and the x-axis \textbf{X}. We also suppress the legend.
+\begin{verbatim}ylab("Y")+xlab("X")+guides(fill=FALSE)+\end{verbatim}
 We control the y-axis and create ticks on the numbers 10, 12 and 14 of the variable \emph{Value}.
 \begin{verbatim}scale_y_continuous(breaks=c(10,12,14))+ \end{verbatim}
 We control the tick labels on the x-axis. We angle the tick labels 45 degrees
@@ -315,21 +315,9 @@ library(Hmisc)\end{verbatim}
 \end{itemize}
 \end{frame}
 
-\begin{frame}
-\frametitle{Xtable}
-\begin{block}{Exporting using Xtable}
-I generally prefer Xtable to Hmisc because
-\begin{enumerate}
-\item xtable can wrap tables from almost all objects and classes
-\item You can modify the LaTeX output a great deal in xtable
-\item Most importantly, xtable can export tables without a float
-\end{enumerate}
-More on the float environment later.
-\end{block}
-\end{frame}
-
 \begin{frame}[fragile]
-\frametitle{List of base tables}
+\frametitle{Xtable}
+{\small List of base tables}
 \begin{columns}[T]
 \begin{column}{.5\textwidth}
 \begin{block}{R function}
@@ -358,9 +346,9 @@ More on the float environment later.
 \end{frame}
 
 \begin{frame}[fragile,shrink]
-\frametitle{Xtable imput}
+\frametitle{Xtable input}
 \begin{block}{}
-Take nearly any R object of class dataframe, matrix, array, aov, lm...\\
+Take an R object of class dataframe, matrix, array, aov, lm...\\
 and then enter \verb|xtable(x)| to provide LaTeX output. You are given a series of options for the output.
 \end{block}
 \begin{columns}[T]
@@ -375,7 +363,7 @@ and then enter \verb|xtable(x)| to provide LaTeX output. You are given a series 
 \begin{itemize}
 \item Captions
 \item Alignment of columns
-\item and more
+\item others
 \end{itemize}
 \end{column}
 \end{columns}
@@ -448,7 +436,8 @@ xtabs(Value~Population+Year))
 
 \begin{frame}[fragile]
 \frametitle{Xtable example part 2}
-Now lets wrap our xtab() table within xtable.
+\small
+Now lets wrap our xtab() table within xtable. Again this looks very ugly. We have forgotten to change some options in the chunk code.
 \begin{verbatim}
 table2<-
 xtable(table,digits=1,align="l|rrrrrrrrrrrr")
@@ -457,7 +446,7 @@ xtable(table,digits=1,align="l|rrrrrrrrrrrr")
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{verbatim}
 ## % latex table generated in R 3.0.1 by xtable 1.7-1 package
-## % Wed Jan  8 10:22:00 2014
+## % Thu Jan  9 00:09:20 2014
 ## \begin{table}[ht]
 ## \centering
 ## \begin{tabular}{l|rrrrrrrrrrrr}
@@ -485,7 +474,8 @@ xtable(table,digits=1,align="l|rrrrrrrrrrrr")
 
 \begin{frame}[fragile]
 \frametitle{Example part 3}
-We have to modify our R chunk code for LaTeX to properly read xtable
+\small
+We have to modify our R chunk code for LaTeX to properly read xtable. The table looks right now, except that it is far too large for the frame
 \begin{verbatim}
 <<echo=FALSE,warning=FALSE, results='asis'>> =
 table2<-
@@ -493,7 +483,7 @@ xtable(table,digits=1,align="l|rrrrrrrrrrrr")
 @
 \end{verbatim}
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Wed Jan  8 10:22:00 2014
+% Thu Jan  9 00:09:21 2014
 \begin{table}[ht]
 \centering
 \begin{tabular}{l|rrrrrrrrrrrr}
@@ -519,7 +509,7 @@ Females & 13.6 & 12.1 & 12.4 & 12.2 & 11.9 & 11.1 & 10.7 & 9.3 & 9.8 & 9.5 & 9.3
 
 \begin{frame}[fragile]
 \frametitle{Example part 4}
-Now you see our Overfull Hbox problem. First we wrap the xtable within print, specify floating=FALSE and resize the table
+This shows our Overfull Hbox problem. To remedy this we wrap the xtable within print, specify floating=FALSE and resize the table
 \begin{verbatim}
 \resizebox{\linewidth}{!}{%
 <<echo=FALSE,warning=FALSE,results='asis'>> =
@@ -529,7 +519,7 @@ print(table2,floating=FALSE)
 \end{verbatim}
 \resizebox{\linewidth}{!}{%
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Wed Jan  8 10:22:00 2014
+% Thu Jan  9 00:09:21 2014
 \begin{tabular}{l|rrrrrrrrrrrr}
   \hline
  & 2000 & 2001 & 2002 & 2003 & 2004 & 2005 & 2006 & 2007 & 2008 & 2009 & 2010 & 2011 \\ 
@@ -596,7 +586,7 @@ Lets say we have a properly sized vanilla table
 \begin{columns}[T]
 \begin{column}{0.5\textwidth}
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Wed Jan  8 10:22:00 2014
+% Thu Jan  9 00:09:21 2014
 \begin{table}[ht]
 \centering
 \begin{tabular}{rrrr}
@@ -639,7 +629,7 @@ To use the following code add \verb|\usepackage{colortbl}| to the preamble and \
 \begin{columns}[T]
 \begin{column}{.5\textwidth}
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Wed Jan  8 10:22:00 2014
+% Thu Jan  9 00:09:21 2014
 \begin{table}[ht]
 \centering
 {\small
@@ -736,7 +726,7 @@ Select the header, another row and our alternating rows
 \begin{verbatim}
   add.to.row=list(pos=c(list(-1,8),pos),
 \end{verbatim}
-Now lets select colors for these select rows
+Now lets select colors for our header, another row and alternating rows
 \begin{verbatim}
   command=c("\\rowcolor[rgb]{1,.8,.8}",
     "\\rowcolor[rgb]{.8,1,0}",
@@ -746,10 +736,282 @@ Now we are finished.
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{A few things on Hmisc}
-The Hmisc equivalent of the \verb|xtable()| wrapper  is the \verb|latex()| function. To my knowledge, \verb|latex()| will always float the output. So in cases of Overfull Hbox, the table cannot be resized to fit the page.\\[\baselineskip]
-If you do not run into a Overfull Hbox, there are cool features in Hmisc not available in xtable, mainly its summarize.formula functions which will only work with Hmisc's latex wrapper
+\frametitle{Hmisc}
+The Hmisc equivalent of the \verb|xtable()| wrapper  is the \verb|latex()| function. It operates in a similar manner to xtable. There are many advanced features in Hmisc that are unavailable to xtable such as multi-line headers, very simple cell selection plus all the functionality of xtable. Hmisc output generally looks cleaner than xtable output.
+With our last example table:  \verb|tab2|, we can write a basic latex table with Hmisc using the following code.
+\begin{verbatim}
+latex(tab2, file= '')
+\end{verbatim}
+\verb|tab2| is the object we want wrapped, and \verb|file= ''| stops Hmisc from creating a separate output postcript file. In other words, it means we will get standard latex output.
 \end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Hmisc and Floating}
+\small
+Like with Xtable, we may run into scenarios where we have Overfull Hbox. In that case we can resize our R table only if our table is non-floating. it In order to specify the output of \verb|latex()| to be a non-floating object, we write:
+\begin{verbatim}
+latex(...,table.env=FALSE,center=FALSE)
+\end{verbatim}
+So instead of your last 3 lines of code looking like
+\begin{verbatim}
+\end{tabular}
+\end{center}
+\end{table}
+\end{verbatim}
+You are simply left with
+\begin{verbatim}
+\end{tabular}
+\end{verbatim}
+Now we can squeeze in a resize for this tabular environment, then center and table it later if we want.
+Like with xtable, these two options are necessary if you need to tinker or resize the table.
+\end{frame}
+
+\begin{frame}
+\frametitle{Hmisc (latex) inputs: Useful options}
+\small
+\begin{columns}[T]
+\begin{column}{.5\textwidth}
+\begin{itemize}
+\item file: \emph{See slides above}
+\item table.env: \emph{See slides above}
+\item center: \emph{See slides above}
+\item size: \emph{Same as xtable}
+\item vbar: \emph{Vertical line divisions}
+\item rowname: \emph{Supress row names}
+\end{itemize}
+\end{column}
+\begin{column}{.5\textwidth}
+\begin{itemize}
+\item extracolheads: \emph{Add sub-headers}
+\item cellTexCmds \emph{Format table cells}
+\item booktabs: \emph{Different table style}
+\item ctable: \emph{Different table style}
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}
+\frametitle{Hmisc (latex) inputs: Group commands}
+\small
+\begin{columns}[T]
+\begin{column}{.5\textwidth}
+\begin{block}{Column Groups}
+\begin{itemize}
+\item cgroup: \emph{Name your column groups}
+\item n.cgroup: \emph{Select your column groups}
+\item cgroupTexCmd: \emph{Format your column groups}
+\item cgroup.just: \emph{Align your column groups}
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{.5\textwidth}
+\begin{block}{Row Groups}
+\begin{itemize}
+\item rgroup: \emph{Name your row groups}
+\item n.rgroup: \emph{Select your row groups}
+\item rgroupTexCmd: \emph{Format your row groups}
+\item rowlabel: \emph{Simple header for row names}
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Hmisc example part 1}
+\small
+Lets start with some subsetted data. Here are the first couple rows.
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+##   Year Geography                                     Line
+## 1 2005    Quebec Low income cut-offs after tax, 1992 base
+## 2 2006    Quebec Low income cut-offs after tax, 1992 base
+## 3 2007    Quebec Low income cut-offs after tax, 1992 base
+## 4 2008    Quebec Low income cut-offs after tax, 1992 base
+## 5 2009    Quebec Low income cut-offs after tax, 1992 base
+## 6 2010    Quebec Low income cut-offs after tax, 1992 base
+##                                   Statistic  Population Value
+## 1 Number of persons in low income (x 1,000) All persons   870
+## 2 Number of persons in low income (x 1,000) All persons   828
+## 3 Number of persons in low income (x 1,000) All persons   784
+## 4 Number of persons in low income (x 1,000) All persons   828
+## 5 Number of persons in low income (x 1,000) All persons   686
+## 6 Number of persons in low income (x 1,000) All persons   778
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\end{frame}
+
+\begin{frame}[fragile,shrink]
+\frametitle{Hmisc example part 2}
+\small
+The data is in long format so we will call \emph{cast} from the \emph{reshape} package in order to display the data how we want
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+##    Geography Year LICO Persons in low income LICO Pov. rate
+## 1    Ontario 2005                       1276           10.3
+## 2    Ontario 2006                       1283           10.3
+## 3    Ontario 2007                       1111            8.8
+## 4    Ontario 2008                       1187            9.3
+## 5    Ontario 2009                       1306           10.1
+## 6    Ontario 2010                       1153            8.8
+## 7    Ontario 2011                       1182            9.0
+## 8     Quebec 2005                        870           11.7
+## 9     Quebec 2006                        828           11.1
+## 10    Quebec 2007                        784           10.4
+## 11    Quebec 2008                        828           10.9
+## 12    Quebec 2009                        686            8.9
+## 13    Quebec 2010                        778           10.0
+## 14    Quebec 2011                        745            9.5
+##    LICO Pov. rate LIM Persons in low income LIM Pov. rate
+## 1            10.3                      1452          11.7
+## 2            10.3                      1418          11.3
+## 3             8.8                      1418          11.2
+## 4             9.3                      1588          12.4
+## 5            10.1                      1681          13.0
+## 6             8.8                      1608          12.3
+## 7             9.0                      1576          12.0
+## 8            11.7                      1048          14.1
+## 9            11.1                      1006          13.4
+## 10           10.4                      1076          14.3
+## 11           10.9                      1172          15.4
+## 12            8.9                      1030          13.4
+## 13           10.0                      1129          14.5
+## 14            9.5                      1095          14.0
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Hmisc example part 3}
+\small
+For the sake of comparison, lets first create the table in Xtable
+\begin{table}
+\resizebox{\linewidth}{!}{%
+% latex table generated in R 3.0.1 by xtable 1.7-1 package
+% Thu Jan  9 00:09:21 2014
+\begin{tabular}{c|c||cccc}
+  \hline
+Geography & Year & LICO Persons in low income & LICO Pov. rate & LIM Persons in low income & LIM Pov. rate \\ 
+  \hline
+Ontario & 2005 & 1276.0 & 10.3 & 1452.0 & 11.7 \\ 
+  Ontario & 2006 & 1283.0 & 10.3 & 1418.0 & 11.3 \\ 
+  Ontario & 2007 & 1111.0 & 8.8 & 1418.0 & 11.2 \\ 
+  Ontario & 2008 & 1187.0 & 9.3 & 1588.0 & 12.4 \\ 
+  Ontario & 2009 & 1306.0 & 10.1 & 1681.0 & 13.0 \\ 
+  Ontario & 2010 & 1153.0 & 8.8 & 1608.0 & 12.3 \\ 
+  Ontario & 2011 & 1182.0 & 9.0 & 1576.0 & 12.0 \\ 
+   \hline
+Quebec & 2005 & 870.0 & 11.7 & 1048.0 & 14.1 \\ 
+  Quebec & 2006 & 828.0 & 11.1 & 1006.0 & 13.4 \\ 
+  Quebec & 2007 & 784.0 & 10.4 & 1076.0 & 14.3 \\ 
+  Quebec & 2008 & 828.0 & 10.9 & 1172.0 & 15.4 \\ 
+  Quebec & 2009 & 686.0 & 8.9 & 1030.0 & 13.4 \\ 
+  Quebec & 2010 & 778.0 & 10.0 & 1129.0 & 14.5 \\ 
+  Quebec & 2011 & 745.0 & 9.5 & 1095.0 & 14.0 \\ 
+   \hline
+\end{tabular}
+
+
+}
+\caption{Using Xtable}
+\end{table}
+This looks adequate, but lets see if Hmisc can do better...
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Hmisc example part 4}
+\small
+\begin{table}
+\resizebox{\linewidth}{!}{%
+% latex.default(tab6, file = "", extracolheads = c("", "(x 1,000)",      "\\%", "(x 1,000)", "\\%"), cgroup = c("", "LICO", "LIM"),      n.cgroup = c(1, 2, 2), rgroup = c("Ontario", "Quebec"), n.rgroup = c(7,          7), table.env = FALSE, center = "none", rowlabel = "",      col.just = c("c", "c", "c", "c", "c"), size = "tiny") 
+%
+\tiny
+\begin{tabular}{lccccccc}
+\hline\hline
+\multicolumn{1}{l}{\bfseries }&\multicolumn{1}{c}{\bfseries }&\multicolumn{1}{c}{\bfseries }&\multicolumn{2}{c}{\bfseries LICO}&\multicolumn{1}{c}{\bfseries }&\multicolumn{2}{c}{\bfseries LIM}\tabularnewline
+\cline{4-5} \cline{7-8}
+\multicolumn{1}{l}{}&\multicolumn{1}{c}{Year}&\multicolumn{1}{c}{}&\multicolumn{1}{c}{Number of persons in low income}&\multicolumn{1}{c}{Poverty rate}&\multicolumn{1}{c}{}&\multicolumn{1}{c}{Number of persons in low income}&\multicolumn{1}{c}{Poverty rate}\tabularnewline
+&&&\multicolumn{1}{c}{{\scriptsize (x 1,000)}}&\multicolumn{1}{c}{{\scriptsize \%}}&&\multicolumn{1}{c}{{\scriptsize (x 1,000)}}&\multicolumn{1}{c}{{\scriptsize \%}}\tabularnewline
+\hline
+{\bfseries Ontario}&&&&&&&\tabularnewline
+~~1&$2005$&&$1276$&$10.3$&&$1452$&$11.7$\tabularnewline
+~~2&$2006$&&$1283$&$10.3$&&$1418$&$11.3$\tabularnewline
+~~3&$2007$&&$1111$&$~8.8$&&$1418$&$11.2$\tabularnewline
+~~4&$2008$&&$1187$&$~9.3$&&$1588$&$12.4$\tabularnewline
+~~5&$2009$&&$1306$&$10.1$&&$1681$&$13.0$\tabularnewline
+~~6&$2010$&&$1153$&$~8.8$&&$1608$&$12.3$\tabularnewline
+~~7&$2011$&&$1182$&$~9.0$&&$1576$&$12.0$\tabularnewline
+\hline
+{\bfseries Quebec}&&&&&&&\tabularnewline
+~~8&$2005$&&$~870$&$11.7$&&$1048$&$14.1$\tabularnewline
+~~9&$2006$&&$~828$&$11.1$&&$1006$&$13.4$\tabularnewline
+~~10&$2007$&&$~784$&$10.4$&&$1076$&$14.3$\tabularnewline
+~~11&$2008$&&$~828$&$10.9$&&$1172$&$15.4$\tabularnewline
+~~12&$2009$&&$~686$&$~8.9$&&$1030$&$13.4$\tabularnewline
+~~13&$2010$&&$~778$&$10.0$&&$1129$&$14.5$\tabularnewline
+~~14&$2011$&&$~745$&$~9.5$&&$1095$&$14.0$\tabularnewline
+\hline
+\end{tabular}
+
+
+
+}
+\caption{Using Hmisc}
+\end{table}
+This looks a bit nicer I think. Lets go over the code in detail
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Hmisc example: code}
+\small
+First, lets cast the data, drop \emph{Geography} and rename headers.
+\begin{verbatim}
+tab6<-cast(tab4,Geography+Year~Line+Statistic,
+  value="Value")
+tab6<-tab6[,-1]
+colnames(tab6)<-
+c("Year","Number of persons in low income",
+  "Poverty rate","Number of persons in low income",
+  "Poverty rate")
+\end{verbatim}
+Now lets wrap our \emph{tab6} in Hmisc's latex function and avoid any unecessary file creation. Lets also set a font size.
+\begin{verbatim}
+latex(tab6,file='',size ='tiny',
+\end{verbatim}
+Add extra headers beneath our new column names.
+\begin{verbatim}
+extracolheads=c('','(x 1,000)','\\%',
+'(x 1,000)','\\%'),
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Hmisc example: code cont...}
+\small
+Now lets look at multi-line headers. We want the first 7 rows in one group and the next 7 in another. Then name the respective groups. We want the first row, then the next 2 and the next 2 in groups so name those as well
+\begin{verbatim}
+n.rgroup=c(7,7),rgroup=c('Ontario','Quebec'),
+n.cgroup=c(2,2),cgroup=c('','LICO','LIM'),
+\end{verbatim}
+Remove any header for the rownames and center all the columns
+\begin{verbatim}
+rowlabel='',col.just=c('c','c','c','c','c'),
+\end{verbatim}
+Finally, and most importantly, remove the float (ie. remove \verb|\begin{table} \begin{center}| and the ends as well) so we can resize it later.
+\begin{verbatim}
+table.env=FALSE,center='none')
+\end{verbatim}
+\end{frame}
+
+
+
 
 \section{Sweave}
 \begin{frame}
@@ -1025,7 +1287,7 @@ Within the frame environment, lets put in a plot that we previously made.\\
     \hlkwd{facet_grid}\hlstd{(.} \hlopt{~} \hlstd{Geography)}
 \end{alltt}
 \end{kframe}
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-11} 
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-15} 
 
 \end{knitrout}
 
@@ -1036,7 +1298,7 @@ Within the frame environment, lets put in a plot that we previously made.\\
 The last plot is not sized correctly. Playing with the fig.width and fig.height in the chunk options, we can get...
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-12} 
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-16} 
 
 \end{knitrout}
 

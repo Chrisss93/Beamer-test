@@ -1,1 +1,10 @@
-This is my read me file
+Hello!
+
+This is my read me file for my basic novice guide to Beamer-Sweave-ggplot. In this repository should be located the .csv file of the data, publicly available from Statistics Canada CANSIM product, the .pdf, the .tex, and many auxiliary files from the compilation.
+
+I am using a custom McGill .sty file that can be found here:
+https://github.com/gsarkis/McGill-Beamer-Theme
+
+Disclaimer: This is a novice guide because I myself am a novice at Beamer and Sweave. I'm not an expert, and this is not expert advice. But it may be helpful for beginners.
+
+Thanks for reading!

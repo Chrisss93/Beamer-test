@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  8 JAN 2014 10:22
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  9 JAN 2014 00:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1187,7 +1187,10 @@ Package pdftex.def Info: figure/unnamed-chunk-4.pdf used on input line 4.
 \openout4 = `Guide.vrb'.
 
 
-(./Guide.vrb)
+(./Guide.vrb
+LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <8> not available
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 7.
+)
 Overfull \vbox (2.39052pt too high) detected at line 268
  []
 
@@ -1213,7 +1216,10 @@ Overfull \vbox (2.39052pt too high) detected at line 268
  (./Guide.vrb) [19
 
 ]
-[20
+\openout4 = `Guide.vrb'.
+
+
+(./Guide.vrb) [20
 
 ]
 \openout4 = `Guide.vrb'.
@@ -1223,15 +1229,10 @@ Overfull \vbox (2.39052pt too high) detected at line 268
 ]
 \openout4 = `Guide.vrb'.
 
- (./Guide.vrb) [22
-
-]
-\openout4 = `Guide.vrb'.
-
  (./Guide.vrb
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <10> not available
 (Font)              Font shape `OT1/phv/b/n' tried instead on input line 4.
-) [23
+) [22
 
 ]
 \openout4 = `Guide.vrb'.
@@ -1239,13 +1240,13 @@ LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <10> not available
  (./Guide.vrb
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <10.95> not available
 (Font)              Font shape `OT1/phv/b/n' tried instead on input line 2.
-)
-[24
+) [23
 
 ]
 \openout4 = `Guide.vrb'.
 
- (./Guide.vrb
+
+(./Guide.vrb
 Overfull \hbox (156.01683pt too wide) in paragraph at lines 7--7
 []\OT1/pcr/m/n/10.95 table<-with(subset(data2,data2$Year>=2000&data2$Geography=
 ="Canada"& 
@@ -1398,7 +1399,88 @@ Overfull \hbox (77.17693pt too wide) in paragraph at lines 35--35
 )
 
 Class beamer Warning: Frame text is shrunk by a factor of 52.53754 percent inst
-ead of 0 percent on input line 447.
+ead of 0 percent on input line 435.
+
+[24
+
+]
+\openout4 = `Guide.vrb'.
+
+ (./Guide.vrb
+Overfull \hbox (75.25737pt too wide) in paragraph at lines 32--32
+[]\OT1/pcr/m/n/10 ## % latex table generated in R 3.0.1 by xtable 1.7-1 package
+[] 
+ []
+
+
+Overfull \hbox (249.25737pt too wide) in paragraph at lines 32--32
+[]\OT1/pcr/m/n/10 ##  & 2000 & 2001 & 2002 & 2003 & 2004 & 2005 & 2006 & 2007 &
+ 2008 & 2009 & 2010 & 2011 \\[] 
+ []
+
+
+Overfull \hbox (261.25737pt too wide) in paragraph at lines 32--32
+[]\OT1/pcr/m/n/10 ## Females & 13.6 & 12.1 & 12.4 & 12.2 & 11.9 & 11.1 & 10.7 &
+ 9.3 & 9.8 & 9.5 & 9.3 & 8.9 \\[] 
+ []
+
+
+Overfull \hbox (261.25737pt too wide) in paragraph at lines 32--32
+[]\OT1/pcr/m/n/10 ##   Males & 11.4 & 10.3 & 10.7 & 11.0 & 10.8 & 10.5 & 10.0 &
+ 9.0 & 8.9 & 9.5 & 8.7 & 8.7 \\[] 
+ []
+
+
+Overfull \hbox (363.25737pt too wide) in paragraph at lines 32--32
+[]\OT1/pcr/m/n/10 ##   Persons under 18 years & 13.9 & 12.2 & 12.4 & 12.7 & 13.
+0 & 11.7 & 11.1 & 9.5 & 9.0 & 9.4 & 8.2 & 8.5 \\[] 
+ []
+
+
+Overfull \hbox (381.25737pt too wide) in paragraph at lines 32--32
+[]\OT1/pcr/m/n/10 ##   Persons 18 to 64 years & 12.9 & 11.7 & 12.0 & 12.2 & 11.
+9 & 11.4 & 11.1 & 9.9 & 10.1 & 10.4 & 10.1 & 9.7 \\[] 
+ []
+
+
+Overfull \hbox (339.25737pt too wide) in paragraph at lines 32--32
+[]\OT1/pcr/m/n/10 ##   Persons 65 years and over & 7.6 & 6.7 & 7.6 & 6.8 & 5.6 
+& 6.2 & 5.3 & 4.8 & 5.8 & 5.1 & 5.3 & 5.2 \\[] 
+ []
+
+
+Overfull \hbox (357.25737pt too wide) in paragraph at lines 32--32
+[]\OT1/pcr/m/n/10 ##   Persons in economic families & 9.3 & 8.1 & 8.6 & 8.7 & 8
+.2 & 7.5 & 7.1 & 6.0 & 6.2 & 6.5 & 5.9 & 5.5 \\[] 
+ []
+
+
+Overfull \hbox (447.25737pt too wide) in paragraph at lines 32--32
+[]\OT1/pcr/m/n/10 ##   Child in single mother families & 40.1 & 37.4 & 43.0 & 4
+1.4 & 40.4 & 32.9 & 31.2 & 26.7 & 23.3 & 21.5 & 21.8 & 23.0 \\[] 
+ []
+
+
+Overfull \hbox (357.25737pt too wide) in paragraph at lines 32--32
+[]\OT1/pcr/m/n/10 ##   Child in two-parent families & 9.5 & 8.3 & 7.4 & 7.9 & 8
+.4 & 7.8 & 7.5 & 6.5 & 6.4 & 7.3 & 5.7 & 5.9 \\[] 
+ []
+
+
+Overfull \hbox (393.25737pt too wide) in paragraph at lines 32--32
+[]\OT1/pcr/m/n/10 ##   Unattached individuals & 32.9 & 30.8 & 29.5 & 29.7 & 30.
+1 & 30.5 & 29.4 & 27.6 & 27.3 & 26.9 & 26.9 & 27.7 \\[] 
+ []
+
+
+Overfull \hbox (297.25737pt too wide) in paragraph at lines 32--32
+[]\OT1/pcr/m/n/10 ##   All persons & 12.5 & 11.2 & 11.6 & 11.6 & 11.4 & 10.8 & 
+10.3 & 9.1 & 9.3 & 9.5 & 9.0 & 8.8 \\[] 
+ []
+
+)
+Overfull \vbox (127.36449pt too high) detected at line 473
+ []
 
 [25
 
@@ -1406,112 +1488,20 @@ ead of 0 percent on input line 447.
 \openout4 = `Guide.vrb'.
 
  (./Guide.vrb
-Overfull \hbox (4.90701pt too wide) in paragraph at lines 6--6
-[]\OT1/pcr/m/n/10.95 xtable(table,digits=1,align="l|rrrrrrrrrrrr")[] 
- []
+LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <10> not available
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 14.
+LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <7> not available
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 14.
 
-
-Overfull \hbox (110.02689pt too wide) in paragraph at lines 31--31
-[]\OT1/pcr/m/n/10.95 ## % latex table generated in R 3.0.1 by xtable 1.7-1 pack
-age[] 
- []
-
-
-Overfull \hbox (300.55666pt too wide) in paragraph at lines 31--31
-[]\OT1/pcr/m/n/10.95 ##  & 2000 & 2001 & 2002 & 2003 & 2004 & 2005 & 2006 & 200
-7 & 2008 & 2009 & 2010 & 2011 \\[] 
- []
-
-
-Overfull \hbox (313.69664pt too wide) in paragraph at lines 31--31
-[]\OT1/pcr/m/n/10.95 ## Females & 13.6 & 12.1 & 12.4 & 12.2 & 11.9 & 11.1 & 10.
-7 & 9.3 & 9.8 & 9.5 & 9.3 & 8.9 \\[] 
- []
-
-
-Overfull \hbox (313.69664pt too wide) in paragraph at lines 31--31
-[]\OT1/pcr/m/n/10.95 ##   Males & 11.4 & 10.3 & 10.7 & 11.0 & 10.8 & 10.5 & 10.
-0 & 9.0 & 8.9 & 9.5 & 8.7 & 8.7 \\[] 
- []
-
-
-Overfull \hbox (425.3865pt too wide) in paragraph at lines 31--31
-[]\OT1/pcr/m/n/10.95 ##   Persons under 18 years & 13.9 & 12.2 & 12.4 & 12.7 & 
-13.0 & 11.7 & 11.1 & 9.5 & 9.0 & 9.4 & 8.2 & 8.5 \\[] 
- []
-
-
-Overfull \hbox (445.09648pt too wide) in paragraph at lines 31--31
-[]\OT1/pcr/m/n/10.95 ##   Persons 18 to 64 years & 12.9 & 11.7 & 12.0 & 12.2 & 
-11.9 & 11.4 & 11.1 & 9.9 & 10.1 & 10.4 & 10.1 & 9.7 \\[] 
- []
-
-
-Overfull \hbox (399.10654pt too wide) in paragraph at lines 31--31
-[]\OT1/pcr/m/n/10.95 ##   Persons 65 years and over & 7.6 & 6.7 & 7.6 & 6.8 & 5
-.6 & 6.2 & 5.3 & 4.8 & 5.8 & 5.1 & 5.3 & 5.2 \\[] 
- []
-
-
-Overfull \hbox (418.81651pt too wide) in paragraph at lines 31--31
-[]\OT1/pcr/m/n/10.95 ##   Persons in economic families & 9.3 & 8.1 & 8.6 & 8.7 
-& 8.2 & 7.5 & 7.1 & 6.0 & 6.2 & 6.5 & 5.9 & 5.5 \\[] 
- []
-
-
-Overfull \hbox (517.3664pt too wide) in paragraph at lines 31--31
-[]\OT1/pcr/m/n/10.95 ##   Child in single mother families & 40.1 & 37.4 & 43.0 
-& 41.4 & 40.4 & 32.9 & 31.2 & 26.7 & 23.3 & 21.5 & 21.8 & 23.0 \\[] 
- []
-
-
-Overfull \hbox (418.81651pt too wide) in paragraph at lines 31--31
-[]\OT1/pcr/m/n/10.95 ##   Child in two-parent families & 9.5 & 8.3 & 7.4 & 7.9 
-& 8.4 & 7.8 & 7.5 & 6.5 & 6.4 & 7.3 & 5.7 & 5.9 \\[] 
- []
-
-
-Overfull \hbox (458.23647pt too wide) in paragraph at lines 31--31
-[]\OT1/pcr/m/n/10.95 ##   Unattached individuals & 32.9 & 30.8 & 29.5 & 29.7 & 
-30.1 & 30.5 & 29.4 & 27.6 & 27.3 & 26.9 & 26.9 & 27.7 \\[] 
- []
-
-
-Overfull \hbox (353.1166pt too wide) in paragraph at lines 31--31
-[]\OT1/pcr/m/n/10.95 ##   All persons & 12.5 & 11.2 & 11.6 & 11.6 & 11.4 & 10.8
- & 10.3 & 9.1 & 9.3 & 9.5 & 9.0 & 8.8 \\[] 
- []
-
-)
-Overfull \vbox (142.49896pt too high) detected at line 484
- []
-
-[26
-
-]
-\openout4 = `Guide.vrb'.
-
- (./Guide.vrb
-Overfull \hbox (11.477pt too wide) in paragraph at lines 8--8
-[]\OT1/pcr/m/n/10.95 <<echo=FALSE,warning=FALSE, results=\TS1/pcr/m/n/10.95 '\O
-T1/pcr/m/n/10.95 asis\TS1/pcr/m/n/10.95 '\OT1/pcr/m/n/10.95 >> =[] 
- []
-
-
-Overfull \hbox (4.90701pt too wide) in paragraph at lines 8--8
-[]\OT1/pcr/m/n/10.95 xtable(table,digits=1,align="l|rrrrrrrrrrrr")[] 
- []
-
-
-Overfull \hbox (302.98358pt too wide) in paragraph at lines 13--29
+Overfull \hbox (265.04263pt too wide) in paragraph at lines 14--30
  [] 
  []
 
 )
-Overfull \vbox (58.63449pt too high) detected at line 518
+Overfull \vbox (41.83455pt too high) detected at line 508
  []
 
-[27
+[26
 
 ]
 \openout4 = `Guide.vrb'.
@@ -1522,32 +1512,27 @@ Overfull \hbox (4.90701pt too wide) in paragraph at lines 9--9
 1/pcr/m/n/10.95 asis\TS1/pcr/m/n/10.95 '\OT1/pcr/m/n/10.95 >> =[] 
  []
 
-) [28
+) [27
 
-] [29
+] [28
 
 ]
 \openout4 = `Guide.vrb'.
 
  (./Guide.vrb)
-Overfull \vbox (4.15788pt too high) detected at line 590
+Overfull \vbox (4.15788pt too high) detected at line 580
  []
 
-[30
+[29
 
 ]
 \openout4 = `Guide.vrb'.
 
- (./Guide.vrb
-LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <10> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 10.
-LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <7> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 10.
-)
-Overfull \vbox (4.77444pt too high) detected at line 635
+ (./Guide.vrb)
+Overfull \vbox (4.77444pt too high) detected at line 625
  []
 
-[31
+[30
 
 ]
 \openout4 = `Guide.vrb'.
@@ -1581,10 +1566,15 @@ Overfull \hbox (13.16818pt too wide) in paragraph at lines 56--57
  []
 
 )
-Overfull \vbox (12.84763pt too high) detected at line 698
+Overfull \vbox (12.84763pt too high) detected at line 688
  []
 
-[32
+[31
+
+]
+\openout4 = `Guide.vrb'.
+
+ (./Guide.vrb) [32
 
 ]
 \openout4 = `Guide.vrb'.
@@ -1599,40 +1589,85 @@ Overfull \vbox (12.84763pt too high) detected at line 698
 ]
 \openout4 = `Guide.vrb'.
 
- (./Guide.vrb) [35
+ (./Guide.vrb)
+[35
 
 ] [36
 
-]
-Overfull \vbox (2.771pt too high) detected at line 773
- []
-
-[37
+] [37
 
 ]
 \openout4 = `Guide.vrb'.
 
- (./Guide.vrb <GuidePic1.pdf, id=535, 249.93375pt x 206.7725pt>
-File: GuidePic1.pdf Graphic file (type pdf)
-
-<use GuidePic1.pdf>
-Package pdftex.def Info: GuidePic1.pdf used on input line 16.
-(pdftex.def)             Requested size: 145.3713pt x 120.27203pt.
-) [38
-
- <./GuidePic1.pdf>]
-\openout4 = `Guide.vrb'.
-
- (./Guide.vrb) [39
+ (./Guide.vrb) [38
 
 ]
 \openout4 = `Guide.vrb'.
 
  (./Guide.vrb)
-Overfull \vbox (8.601pt too high) detected at line 836
+
+Class beamer Warning: Frame text is shrunk by a factor of 17.64221 percent inst
+ead of 0 percent on input line 889.
+
+[39
+
+] [40
+
+]
+\openout4 = `Guide.vrb'.
+
+ (./Guide.vrb
+LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <6> not available
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 37.
+) [41
+
+]
+\openout4 = `Guide.vrb'.
+
+ (./Guide.vrb
+Overfull \hbox (15.25737pt too wide) in paragraph at lines 12--12
+[]  \OT1/pcr/m/n/10 "Poverty rate","Number of persons in low income",[] 
  []
 
-[40
+) [42
+
+]
+\openout4 = `Guide.vrb'.
+
+ (./Guide.vrb) [43
+
+] [44
+
+]
+Overfull \vbox (2.771pt too high) detected at line 1035
+ []
+
+[45
+
+]
+\openout4 = `Guide.vrb'.
+
+ (./Guide.vrb <GuidePic1.pdf, id=626, 249.93375pt x 206.7725pt>
+File: GuidePic1.pdf Graphic file (type pdf)
+
+<use GuidePic1.pdf>
+Package pdftex.def Info: GuidePic1.pdf used on input line 16.
+(pdftex.def)             Requested size: 145.3713pt x 120.27203pt.
+) [46
+
+ <./GuidePic1.pdf>]
+\openout4 = `Guide.vrb'.
+
+ (./Guide.vrb) [47
+
+]
+\openout4 = `Guide.vrb'.
+
+ (./Guide.vrb)
+Overfull \vbox (8.601pt too high) detected at line 1098
+ []
+
+[48
 
 ]
 \openout4 = `Guide.vrb'.
@@ -1643,66 +1678,66 @@ Overfull \hbox (4.90701pt too wide) in paragraph at lines 3--3
 T1/pcr/m/n/10.95 tiny\TS1/pcr/m/n/10.95 '\OT1/pcr/m/n/10.95 >>=[] 
  []
 
-) [41
+) [49
 
-] [42
+] [50
 
-] [43
-
-]
-\openout4 = `Guide.vrb'.
-
- (./Guide.vrb) [44
-
-]
-\openout4 = `Guide.vrb'.
-
- (./Guide.vrb) [45
-
-]
-\openout4 = `Guide.vrb'.
-
- (./Guide.vrb) [46
-
-]
-\openout4 = `Guide.vrb'.
-
-
-(./Guide.vrb) [47
-
-]
-\openout4 = `Guide.vrb'.
-
- (./Guide.vrb) [48
-
-]
-\openout4 = `Guide.vrb'.
-
- (./Guide.vrb) [49
-
-]
-\openout4 = `Guide.vrb'.
-
- (./Guide.vrb) [50
-
-]
-[51
+] [51
 
 ]
 \openout4 = `Guide.vrb'.
 
  (./Guide.vrb) [52
 
-] [53
+]
+\openout4 = `Guide.vrb'.
 
-] [54
+ (./Guide.vrb) [53
 
-] [55
+]
+\openout4 = `Guide.vrb'.
+
+ (./Guide.vrb) [54
+
+]
+\openout4 = `Guide.vrb'.
+
+
+(./Guide.vrb) [55
 
 ]
 \openout4 = `Guide.vrb'.
 
  (./Guide.vrb) [56
+
+]
+\openout4 = `Guide.vrb'.
+
+ (./Guide.vrb) [57
+
+]
+\openout4 = `Guide.vrb'.
+
+ (./Guide.vrb) [58
+
+]
+[59
+
+]
+\openout4 = `Guide.vrb'.
+
+ (./Guide.vrb) [60
+
+] [61
+
+] [62
+
+] [63
+
+]
+\openout4 = `Guide.vrb'.
+
+ (./Guide.vrb) [64
 
 ]
 \openout4 = `Guide.vrb'.
@@ -1755,45 +1790,42 @@ pcr/m/n/10.95 ([][]legend.position[] []=[] []"none"[][],[] []axis.text.x[] []=[
 45[][]))[] []+[][] 
  []
 
-<figure/unnamed-chunk-11.pdf, id=759, 505.89pt x 505.89pt>
-File: figure/unnamed-chunk-11.pdf Graphic file (type pdf)
+<figure/unnamed-chunk-15.pdf, id=850, 505.89pt x 505.89pt>
+File: figure/unnamed-chunk-15.pdf Graphic file (type pdf)
 
-<use figure/unnamed-chunk-11.pdf>
-Package pdftex.def Info: figure/unnamed-chunk-11.pdf used on input line 14.
+<use figure/unnamed-chunk-15.pdf>
+Package pdftex.def Info: figure/unnamed-chunk-15.pdf used on input line 14.
 (pdftex.def)             Requested size: 290.74263pt x 290.74553pt.
 )
-Overfull \vbox (196.51172pt too high) detected at line 1032
+Overfull \vbox (196.51172pt too high) detected at line 1294
  []
 
-[57
+[65
 
- <./figure/unnamed-chunk-11.pdf>]
-<figure/unnamed-chunk-12.pdf, id=777, 505.89pt x 216.81pt>
-File: figure/unnamed-chunk-12.pdf Graphic file (type pdf)
+ <./figure/unnamed-chunk-15.pdf>]
+<figure/unnamed-chunk-16.pdf, id=868, 505.89pt x 216.81pt>
+File: figure/unnamed-chunk-16.pdf Graphic file (type pdf)
 
-<use figure/unnamed-chunk-12.pdf>
-Package pdftex.def Info: figure/unnamed-chunk-12.pdf used on input line 1043.
+<use figure/unnamed-chunk-16.pdf>
+Package pdftex.def Info: figure/unnamed-chunk-16.pdf used on input line 1305.
 (pdftex.def)             Requested size: 290.74263pt x 124.60522pt.
- [58
+ [66
 
- <./figure/unnamed-chunk-12.pdf>]
+ <./figure/unnamed-chunk-16.pdf>]
 \openout4 = `Guide.vrb'.
 
 
-(./Guide.vrb
-LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <8> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 4.
-) [59
+(./Guide.vrb) [67
 
 ]
 \openout4 = `Guide.vrb'.
 
- (./Guide.vrb) [60
+ (./Guide.vrb) [68
 
 ]
 \openout4 = `Guide.vrb'.
 
- (./Guide.vrb) [61
+ (./Guide.vrb) [69
 
 ]
 \openout4 = `Guide.vrb'.
@@ -1801,15 +1833,15 @@ LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <8> not available
  (./Guide.vrb
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <9> not available
 (Font)              Font shape `OT1/phv/b/n' tried instead on input line 5.
-) [62
+) [70
 
 ]
-[63
+[71
 
 ]
 \openout4 = `Guide.vrb'.
 
- (./Guide.vrb) [64
+ (./Guide.vrb) [72
 
 ]
 \tf@nav=\write6
@@ -1821,37 +1853,38 @@ LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <9> not available
 \tf@snm=\write8
 \openout8 = `Guide.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1107.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1107.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1369.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1369.
  (./Guide.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1107.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1107.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1369.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1369.
 
 Package rerunfilecheck Info: File `Guide.out' has not changed.
 (rerunfilecheck)             Checksum: 5400A071E3101DA539AAFC40437BC1F8;175.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1107.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1369.
  ) 
 Here is how much of TeX's memory you used:
- 18200 strings out of 493488
- 336104 string characters out of 3141326
- 433640 words of memory out of 3000000
- 20795 multiletter control sequences out of 15000+200000
- 48991 words of font info for 102 fonts, out of 3000000 for 9000
+ 18251 strings out of 493488
+ 336607 string characters out of 3141326
+ 433638 words of memory out of 3000000
+ 20816 multiletter control sequences out of 15000+200000
+ 51432 words of font info for 107 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
  49i,16n,60p,466b,1454s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/local/texlive/2012/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
-exlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/tex
-live/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texl
-ive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texliv
-e/2012/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/2012/t
-exmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2012/texmf-dis
-t/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2012/texmf-dist/fonts
-/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/
-urw/helvetic/uhvro8a.pfb>
-Output written on Guide.pdf (64 pages, 248429 bytes).
+exlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/tex
+live/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texli
+ve/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texliv
+e/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/
+2012/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/2012/tex
+mf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2012/texmf-dist/
+fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/t
+ype1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/ur
+w/helvetic/uhvro8a.pfb>
+Output written on Guide.pdf (72 pages, 269962 bytes).
 PDF statistics:
- 926 PDF objects out of 1000 (max. 8388607)
- 812 compressed objects within 9 object streams
- 133 named destinations out of 1000 (max. 500000)
+ 1022 PDF objects out of 1200 (max. 8388607)
+ 899 compressed objects within 9 object streams
+ 149 named destinations out of 1000 (max. 500000)
  157 words of extra memory for PDF output out of 10000 (max. 10000000)
 

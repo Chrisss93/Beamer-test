@@ -253,8 +253,8 @@ From our dataset DATA, we graph the variable \emph{Year} on the x-axis and the v
 \begin{verbatim}ggplot(data=DATA,aes(x=Year,y=Value,colour=Population))+\end{verbatim}
 We specify that we want a line graph, and title the plot.
 \begin{verbatim}geom_line()+gggtitle("This is my plot")\end{verbatim}
-We title the y-axis \emph{Y} and the x-axis {X}. We also suppress the legend.
-\begin{verbatim}ylab("Pov. rates")+xlab("Time")+guides(fill=FALSE)+\end{verbatim}
+We title the y-axis \textbf{Y} and the x-axis \textbf{X}. We also suppress the legend.
+\begin{verbatim}ylab("Y")+xlab("X")+guides(fill=FALSE)+\end{verbatim}
 We control the y-axis and create ticks on the numbers 10, 12 and 14 of the variable \emph{Value}.
 \begin{verbatim}scale_y_continuous(breaks=c(10,12,14))+ \end{verbatim}
 We control the tick labels on the x-axis. We angle the tick labels 45 degrees
@@ -312,21 +312,9 @@ library(Hmisc)\end{verbatim}
 \end{itemize}
 \end{frame}
 
-\begin{frame}
-\frametitle{Xtable}
-\begin{block}{Exporting using Xtable}
-I generally prefer Xtable to Hmisc because
-\begin{enumerate}
-\item xtable can wrap tables from almost all objects and classes
-\item You can modify the LaTeX output a great deal in xtable
-\item Most importantly, xtable can export tables without a float
-\end{enumerate}
-More on the float environment later.
-\end{block}
-\end{frame}
-
 \begin{frame}[fragile]
-\frametitle{List of base tables}
+\frametitle{Xtable}
+{\small List of base tables}
 \begin{columns}[T]
 \begin{column}{.5\textwidth}
 \begin{block}{R function}
@@ -355,9 +343,9 @@ More on the float environment later.
 \end{frame}
 
 \begin{frame}[fragile,shrink]
-\frametitle{Xtable imput}
+\frametitle{Xtable input}
 \begin{block}{}
-Take nearly any R object of class dataframe, matrix, array, aov, lm...\\
+Take an R object of class dataframe, matrix, array, aov, lm...\\
 and then enter \verb|xtable(x)| to provide LaTeX output. You are given a series of options for the output.
 \end{block}
 \begin{columns}[T]
@@ -372,7 +360,7 @@ and then enter \verb|xtable(x)| to provide LaTeX output. You are given a series 
 \begin{itemize}
 \item Captions
 \item Alignment of columns
-\item and more
+\item others
 \end{itemize}
 \end{column}
 \end{columns}
@@ -419,7 +407,8 @@ table
 
 \begin{frame}[fragile]
 \frametitle{Xtable example part 2}
-Now lets wrap our xtab() table within xtable.
+\small
+Now lets wrap our xtab() table within xtable. Again this looks very ugly. We have forgotten to change some options in the chunk code.
 \begin{verbatim}
 table2<-
 xtable(table,digits=1,align="l|rrrrrrrrrrrr")
@@ -432,7 +421,8 @@ table2
 
 \begin{frame}[fragile]
 \frametitle{Example part 3}
-We have to modify our R chunk code for LaTeX to properly read xtable
+\small
+We have to modify our R chunk code for LaTeX to properly read xtable. The table looks right now, except that it is far too large for the frame
 \begin{verbatim}
 <<echo=FALSE,warning=FALSE, results='asis'>> =
 table2<-
@@ -446,7 +436,7 @@ table2
 
 \begin{frame}[fragile]
 \frametitle{Example part 4}
-Now you see our Overfull Hbox problem. First we wrap the xtable within print, specify floating=FALSE and resize the table
+This shows our Overfull Hbox problem. To remedy this we wrap the xtable within print, specify floating=FALSE and resize the table
 \begin{verbatim}
 \resizebox{\linewidth}{!}{%
 <<echo=FALSE,warning=FALSE,results='asis'>> =
@@ -610,7 +600,7 @@ Select the header, another row and our alternating rows
 \begin{verbatim}
   add.to.row=list(pos=c(list(-1,8),pos),
 \end{verbatim}
-Now lets select colors for these select rows
+Now lets select colors for our header, another row and alternating rows
 \begin{verbatim}
   command=c("\\rowcolor[rgb]{1,.8,.8}",
     "\\rowcolor[rgb]{.8,1,0}",
@@ -620,10 +610,198 @@ Now we are finished.
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{A few things on Hmisc}
-The Hmisc equivalent of the \verb|xtable()| wrapper  is the \verb|latex()| function. To my knowledge, \verb|latex()| will always float the output. So in cases of Overfull Hbox, the table cannot be resized to fit the page.\\[\baselineskip]
-If you do not run into a Overfull Hbox, there are cool features in Hmisc not available in xtable, mainly its summarize.formula functions which will only work with Hmisc's latex wrapper
+\frametitle{Hmisc}
+The Hmisc equivalent of the \verb|xtable()| wrapper  is the \verb|latex()| function. It operates in a similar manner to xtable. There are many advanced features in Hmisc that are unavailable to xtable such as multi-line headers, very simple cell selection plus all the functionality of xtable. Hmisc output generally looks cleaner than xtable output.
+With our last example table:  \verb|tab2|, we can write a basic latex table with Hmisc using the following code.
+\begin{verbatim}
+latex(tab2, file= '')
+\end{verbatim}
+\verb|tab2| is the object we want wrapped, and \verb|file= ''| stops Hmisc from creating a separate output postcript file. In other words, it means we will get standard latex output.
 \end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Hmisc and Floating}
+\small
+Like with Xtable, we may run into scenarios where we have Overfull Hbox. In that case we can resize our R table only if our table is non-floating. it In order to specify the output of \verb|latex()| to be a non-floating object, we write:
+\begin{verbatim}
+latex(...,table.env=FALSE,center=FALSE)
+\end{verbatim}
+So instead of your last 3 lines of code looking like
+\begin{verbatim}
+\end{tabular}
+\end{center}
+\end{table}
+\end{verbatim}
+You are simply left with
+\begin{verbatim}
+\end{tabular}
+\end{verbatim}
+Now we can squeeze in a resize for this tabular environment, then center and table it later if we want.
+Like with xtable, these two options are necessary if you need to tinker or resize the table.
+\end{frame}
+
+\begin{frame}
+\frametitle{Hmisc (latex) inputs: Useful options}
+\small
+\begin{columns}[T]
+\begin{column}{.5\textwidth}
+\begin{itemize}
+\item file: \emph{See slides above}
+\item table.env: \emph{See slides above}
+\item center: \emph{See slides above}
+\item size: \emph{Same as xtable}
+\item vbar: \emph{Vertical line divisions}
+\item rowname: \emph{Supress row names}
+\end{itemize}
+\end{column}
+\begin{column}{.5\textwidth}
+\begin{itemize}
+\item extracolheads: \emph{Add sub-headers}
+\item cellTexCmds \emph{Format table cells}
+\item booktabs: \emph{Different table style}
+\item ctable: \emph{Different table style}
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}
+\frametitle{Hmisc (latex) inputs: Group commands}
+\small
+\begin{columns}[T]
+\begin{column}{.5\textwidth}
+\begin{block}{Column Groups}
+\begin{itemize}
+\item cgroup: \emph{Name your column groups}
+\item n.cgroup: \emph{Select your column groups}
+\item cgroupTexCmd: \emph{Format your column groups}
+\item cgroup.just: \emph{Align your column groups}
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{.5\textwidth}
+\begin{block}{Row Groups}
+\begin{itemize}
+\item rgroup: \emph{Name your row groups}
+\item n.rgroup: \emph{Select your row groups}
+\item rgroupTexCmd: \emph{Format your row groups}
+\item rowlabel: \emph{Simple header for row names}
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Hmisc example part 1}
+\small
+Lets start with some subsetted data. Here are the first couple rows.
+<<echo=FALSE,warning=FALSE,size='tiny'>>=
+tab4<-subset(data2,(data2$Geography=="Ontario"|data2$Geography=="Quebec")&
+                      (data2$Statistic=="Percentage of persons in low income"|data2$Statistic=="Number of persons in low income (x 1,000)")&
+                      !data2$Line=="Market basket measure, 2011 base"&
+                      data2$Population=="All persons"&
+                      data2$Year>=2005)
+row.names(tab4)<-NULL
+head(tab4[1:3])
+head(tab4[4:6])
+@
+\end{frame}
+
+\begin{frame}[fragile,shrink]
+\frametitle{Hmisc example part 2}
+\small
+The data is in long format so we will call \emph{cast} from the \emph{reshape} package in order to display the data how we want
+<<echo=FALSE,warning=FALSE,size='tiny'>>=
+tab5<-cast(tab4,Geography+Year~Line+Statistic,value="Value")
+colnames(tab5)[3:6]<-c("LICO Persons in low income","LICO Pov. rate","LIM Persons in low income","LIM Pov. rate")
+row.names(tab5)<-NULL
+tab5[1:4]
+tab5[4:6]
+@
+\end{frame}
+
+\begin{frame}
+\frametitle{Hmisc example part 3}
+\small
+For the sake of comparison, lets first create the table in Xtable
+\begin{table}
+\resizebox{\linewidth}{!}{%
+<<echo=FALSE,warning=FALSE,results='asis'>>=
+print(xtable(tab5,align="cc|c||cccc",size="small",digits=1),hline.after=c(-1,0,7,nrow(tab5)),floating=FALSE,include.rownames=FALSE)
+@
+}
+\caption{Using Xtable}
+\end{table}
+This looks adequate, but lets see if Hmisc can do better...
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Hmisc example part 4}
+\small
+\begin{table}
+\resizebox{\linewidth}{!}{%
+<<echo=FALSE,results='asis'>>=
+tab6<-cast(tab4,Geography+Year~Line+Statistic,value="Value")
+tab6<-tab6[,-1] #Remove Geography
+colnames(tab6)<-c("Year","Number of persons in low income","Poverty rate","Number of persons in low income","Poverty rate")
+latex(tab6,file='',extracolheads=c('','(x 1,000)','\\%','(x 1,000)','\\%'),
+      cgroup=c('','LICO','LIM'),n.cgroup=c(1,2,2),
+      rgroup=c('Ontario','Quebec'),n.rgroup=c(7,7),
+      table.env=FALSE,center='none',
+      rowlabel='',col.just=c('c','c','c','c','c'),
+      size='tiny')
+@
+}
+\caption{Using Hmisc}
+\end{table}
+This looks a bit nicer I think. Lets go over the code in detail
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Hmisc example: code}
+\small
+First, lets cast the data, drop \emph{Geography} and rename headers.
+\begin{verbatim}
+tab6<-cast(tab4,Geography+Year~Line+Statistic,
+  value="Value")
+tab6<-tab6[,-1]
+colnames(tab6)<-
+c("Year","Number of persons in low income",
+  "Poverty rate","Number of persons in low income",
+  "Poverty rate")
+\end{verbatim}
+Now lets wrap our \emph{tab6} in Hmisc's latex function and avoid any unecessary file creation. Lets also set a font size.
+\begin{verbatim}
+latex(tab6,file='',size ='tiny',
+\end{verbatim}
+Add extra headers beneath our new column names.
+\begin{verbatim}
+extracolheads=c('','(x 1,000)','\\%',
+'(x 1,000)','\\%'),
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Hmisc example: code cont...}
+\small
+Now lets look at multi-line headers. We want the first 7 rows in one group and the next 7 in another. Then name the respective groups. We want the first row, then the next 2 and the next 2 in groups so name those as well
+\begin{verbatim}
+n.rgroup=c(7,7),rgroup=c('Ontario','Quebec'),
+n.cgroup=c(2,2),cgroup=c('','LICO','LIM'),
+\end{verbatim}
+Remove any header for the rownames and center all the columns
+\begin{verbatim}
+rowlabel='',col.just=c('c','c','c','c','c'),
+\end{verbatim}
+Finally, and most importantly, remove the float (ie. remove \verb|\begin{table} \begin{center}| and the ends as well) so we can resize it later.
+\begin{verbatim}
+table.env=FALSE,center='none')
+\end{verbatim}
+\end{frame}
+
+
+
 
 \section{Sweave}
 \begin{frame}
