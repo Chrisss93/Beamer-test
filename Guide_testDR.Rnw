@@ -20,6 +20,11 @@
 \tableofcontents
 \end{frame}
 
+\begin{frame}
+\frametitle{Fork test}
+here we are trying to edit directly on git hub 21 Jan 2014
+\end{frame}
+
 \begin{frame}[fragile]
 \frametitle{Downloading packages}
 \footnotesize
